@@ -6,6 +6,7 @@ public class Kata {
         return  length * width * height ;
         //1231
         //1221
+        //123
 
 
     }
