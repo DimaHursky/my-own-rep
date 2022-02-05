@@ -1,8 +1,11 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Story;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.*;
 import utils.DriverConfiguration;
@@ -12,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.DriverConfiguration.USER_NAME;
 import static utils.DriverConfiguration.USER_PASSWORD;
 
+@Story("Tests for ForgotPasswordPage")
 public class ForgotPasswordTest extends BaseTest {
 
     protected LoginPage loginPage;
@@ -75,21 +79,9 @@ public class ForgotPasswordTest extends BaseTest {
 
     }
 
-    /**
-     * Open the forgot password page
-     */
     @Test
-    public void isEmailFieldIsDsp() {
-        homePage.clkMenuBtn()
-                .clkLoginBtn()
-                .clkForgotPasswordBnt()
-                .clkUserEmailFld();
-        assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
-    }
-    /** Open the forgot password page and back to Login Page
-     *
-     */
-    @Test
+    @DisplayName("Verify that the the 'Back to Log In' button are redirect user to main page")
+    @Description("The user redirect from the \"Forgot Password\" page to the \"Login Page\"")
     public void isTheUserBackToLofinPage() {
         homePage.clkMenuBtn()
                 .clkLoginBtn()
@@ -98,6 +90,19 @@ public class ForgotPasswordTest extends BaseTest {
         assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
     }
 
+    @Test
+    @DisplayName("Verify that user is able to recover the password")
+    @Description("Open the recover the password for email 'DimaTracksterTest@gmail.com' the password '12345Hur'")
+    public void isEmailFieldIsDsp() {
+        homePage.clkMenuBtn()
+                .clkLoginBtn()
+                .clkForgotPasswordBnt()
+                .inserEmailFld("DimaTracksterTest@gmail.com")
+                .clkSendLinkBtn();
+        //assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
+    }
+
+    // TODO:  page 'Sign Up' isn't ready
 //    /**
 //     * Open the Sgn Up button  (The "signupPage" is not ready)
 //     */

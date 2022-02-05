@@ -1,16 +1,17 @@
 package tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Stories;
+import io.qameta.allure.Story;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pages.*;
 import utils.DriverConfiguration;
 import utils.YAMLDeserializer;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-
+@Story("All tests for LoginPage")
 public class LoginPageTest extends BaseTest {
 
     protected LoginPage loginPage;
@@ -28,6 +29,7 @@ public class LoginPageTest extends BaseTest {
     private static String USER_NAME_WITHOUT_PARCELS;
     private static String USER_PASSWORD_WITHOUT_PARCELS;
 
+    //todo винести в драйвер конф
     public LoginPageTest() {
         super();
 //        loginPage = new LoginPage(driver);
@@ -57,10 +59,18 @@ public class LoginPageTest extends BaseTest {
                 .clkLoginBtn();
     }
 
-    /**
-     * Test verify that all elements on LoginPage are displayed
-     */
+    @AfterEach
+    public void afterEach() {
+        homePage.open(DriverConfiguration.BASE_URL);
+        homePage.clkMenuBtn()
+                .clkLogOutBtn();
+    }
+
+
     @Test
+    @DisplayName("Verify that all elements on LoginPage are displayed.")
+    @Description("The test for all elements searching by Xpath and CSS selectors")
+
     public void verifyThatAllElementsAreDisplayed() {
 
         SoftAssertions softAssertions = new SoftAssertions();
@@ -96,54 +106,44 @@ public class LoginPageTest extends BaseTest {
         assertTrue(loginPage.isLoginWithFacebookDsp(), "Login with google facebook isn't displayed");
     }
 
-    /**
-     * Verify that error message "Email is invalid" is displayed when user login with invalid email
-     */
     @Test
+    @DisplayName("Verify that error message \"Email is invalid\" is displayed when user login with invalid email")
+    @Description("We using the 'invalidLogin'  method from 'LoginPage' and enter the INVALID_USER_NAME from 'login_test_data.yaml' file" +
+            "to verify that the error 'Email is invalid' is displayed")
     public void loginTestWhenTheEmailInvalid() {
         loginPage.invalidLogin(INVALID_USER_NAME, USER_PASSWORD);
         assertTrue(loginPage.isErrorTextEmailIsntValidDispl(), "Error Text 'Email is invalid' isn't displayed when the user is enter the invalid email");
     }
 
-    /**
-     * Verify that error message "Incorrect email or password" is displayed when user login with invalid password
-     */
     @Test
+    @DisplayName("Verify that error message \"Incorrect email or password\" is displayed when user login with invalid password")
+    @Description("We using the 'invalidLogin'  method from 'LoginPage' and enter the INVALID_USER_PASSWORD from 'login_test_data.yaml' file" +
+            "to verify that the error 'Incorrect email or password' is displayed")
     public void loginTestWhenThePasswordInvalid() {
         loginPage.invalidLogin(USER_NAME, INVALID_USER_PASSWORD);
         assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
     }
 
-    /**
-     * Open the forgot password page
-     */
     @Test
-    public void isEmailFieldIsDsp() {
-
-        loginPage.clkForgotPasswordBnt()
-                .clkUserEmailFld();
-        assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
-    }
-
-    /**
-     * Verify that the parcel "" are displayed on the parcel page
-     */
-    @Test
-    public void loginAsUserWithParcels(){
+    @DisplayName("Verify that the parcel \"59000779201387\" are displayed on the parcel page")
+    @Description("\"We using the 'validLogin' method from 'LoginPage' and search the parcel by the track number '59000779201387'")
+    public void loginAsUserWithParcels() {
 
         loginPage.validLogin(USER_NAME, USER_PASSWORD)
                 .getParcelNumber();
         assertTrue(myParcelsPage.isNmbParcelDisplayed(), "The parcels '59000779201387' isn't displayed");
     }
 
-    /**
-     * Verify that the image about absent parcels is displayed
-     */
     @Test
+    @DisplayName("Verify that the image about absent parcels is displayed")
+    @Description("login as the user that no any saved parcels ")
     public void loginTestWithoutParcels() {
         loginPage.invalidLogin(USER_NAME_WITHOUT_PARCELS, USER_PASSWORD_WITHOUT_PARCELS);
-        assertTrue(myParcelsPage.isImgNothingFoundDisplayed(), "Incorrect email or password Isn't Vali isn't displayed when the user is logged in");
+        assertTrue(myParcelsPage.isImgNothingFoundDisplayed(), "Incorrect email or password Isn't Valid isn't displayed when the user is logged in");
     }
+
+
+
 
 //    @ParameterizedTest
 //    @MethodSource("invalidCredentials")
