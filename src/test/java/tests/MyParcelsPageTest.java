@@ -33,7 +33,7 @@ public class MyParcelsPageTest extends BaseTest {
         myParcelsPage.open(DriverConfiguration.BASE_URL);
         homePage.clkMenuBtn()
                 .clkLoginBtn()
-                .insertLoginFld("forTracksterTest@gmail.com","12345Hur")
+                .insertLoginFld(USER_NAME,USER_PASSWORD)
                 .clkSubmitLogin();
     }
 

@@ -11,18 +11,11 @@ import utils.DriverConfiguration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HomePageTest extends BaseTest {
-    protected HomePage homePage;
     protected MenuPage menuPage;
 
     public HomePageTest() {
         super();
-        homePage = new HomePage(driver);
         menuPage = new MenuPage(driver);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        homePage.open(DriverConfiguration.BASE_URL);
     }
 
     @Test

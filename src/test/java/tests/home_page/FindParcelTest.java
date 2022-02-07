@@ -1,22 +1,15 @@
 package tests.home_page;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pages.BasePage;
-import pages.HomePage;
 import pages.SrchFldPage;
 import tests.BaseTest;
 import utils.DriverConfiguration;
 import model.TestData;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.YAMLDeserializer.fromFileToMap;
 
@@ -24,15 +17,11 @@ import static utils.YAMLDeserializer.fromFileToMap;
 public class FindParcelTest extends BaseTest {
 
     protected SrchFldPage srchFldPage;
-    protected HomePage homePage;
-    protected BasePage basePage;
     private static TestData testData;
 
     public FindParcelTest() {
         super();
         srchFldPage = new SrchFldPage(driver);
-        homePage = new HomePage(driver);
-        basePage = new BasePage(driver);
     }
 
     @BeforeAll

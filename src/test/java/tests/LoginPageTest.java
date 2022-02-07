@@ -1,13 +1,18 @@
 package tests;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Stories;
 import io.qameta.allure.Story;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import pages.*;
 import utils.DriverConfiguration;
 import utils.YAMLDeserializer;
+
+import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -121,7 +126,11 @@ public class LoginPageTest extends BaseTest {
             "to verify that the error 'Incorrect email or password' is displayed")
     public void loginTestWhenThePasswordInvalid() {
         loginPage.invalidLogin(USER_NAME, INVALID_USER_PASSWORD);
-        assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
+        //assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
+
+        Allure.addAttachment("Error Text",
+                new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+        assertTrue(false);
     }
 
     @Test
@@ -134,13 +143,13 @@ public class LoginPageTest extends BaseTest {
         assertTrue(myParcelsPage.isNmbParcelDisplayed(), "The parcels '59000779201387' isn't displayed");
     }
 
-    @Test
-    @DisplayName("Verify that the image about absent parcels is displayed")
-    @Description("login as the user that no any saved parcels ")
-    public void loginTestWithoutParcels() {
-        loginPage.invalidLogin(USER_NAME_WITHOUT_PARCELS, USER_PASSWORD_WITHOUT_PARCELS);
-        assertTrue(myParcelsPage.isImgNothingFoundDisplayed(), "Incorrect email or password Isn't Valid isn't displayed when the user is logged in");
-    }
+//    @Test
+//    @DisplayName("Verify that the image about absent parcels is displayed")
+//    @Description("login as the user that no any saved parcels ")
+//    public void loginTestWithoutParcels() {
+//        loginPage.invalidLogin(USER_NAME_WITHOUT_PARCELS, USER_PASSWORD_WITHOUT_PARCELS);
+//        assertTrue(myParcelsPage.isImgNothingFoundDisplayed(), "Incorrect email or password Isn't Valid isn't displayed when the user is logged in");
+//    }
 
 
 
