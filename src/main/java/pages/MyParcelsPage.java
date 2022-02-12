@@ -3,7 +3,7 @@ package pages;
 import org.openqa.selenium.*;
 
 public class MyParcelsPage extends BasePage {
-    protected HomePage homePage;
+   // protected HomePage homePage;
 
     public MyParcelsPage(WebDriver driver) {
 
@@ -82,10 +82,7 @@ public class MyParcelsPage extends BasePage {
             ("//div[@class='MuiDialogActions-root MuiDialogActions-spacing']//button/following-sibling::button");
     private final By tbrBtnParcel = By.xpath
             ("//div[@class='MuiCollapse-container MuiCollapse-entered']");
-    private final By imgNothingFound = By.xpath
-            ("//img[@src='/static/media/emptybox.c59ecd49.svg']");
-
-
+    private final By nothingFoundImg = By.xpath("//div[@class='not-found']");
 
     /**
      * Methods find elements on page
@@ -250,17 +247,15 @@ public class MyParcelsPage extends BasePage {
         return driver.findElement(lnkMoreInfo).isDisplayed();
     }
 
-    public boolean isImgNothingFoundDisplayed() {
-
-        return driver.findElement(imgNothingFound).isDisplayed();
+    public boolean isNothinfFoundImgDisplayed() {
+        return driver.findElement(nothingFoundImg).isDisplayed();
     }
-
 
     /**
      * Methods for input track number in track number fold and search this track number
      */
-    public MyParcelsPage inpTrckNbrAndClkEnter() {
-        driver.findElement(trckNbrFld).sendKeys("20450498476837", Keys.ENTER);
+    public MyParcelsPage inpTrckNbrAndClkEnter(String trckNbr) {
+        driver.findElement(trckNbrFld).sendKeys(trckNbr, Keys.ENTER);
         return this;
     }
 

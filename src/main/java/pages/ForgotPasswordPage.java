@@ -20,7 +20,10 @@ public class ForgotPasswordPage extends BasePage {
     private final By signUpBtn = By.xpath("(//a[@href='/signup'])[2]");
     private final By backToLogInBtn = By.xpath("(//a[@href='/login'])[2]");
     private final By sendLinkBtn = By.xpath("//span[@class='MuiButton-label']");
-    private final By dontHaveAnAccountTxt = By.xpath("(//p[@class='MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter'])[2]");
+    private final By dontHaveAnAccountTxt = By.cssSelector("p.MuiTypography-root.MuiTypography-body2.MuiTypography-alignCenter");
+    private final By messageAboutRecoveryPassw = By.xpath("//div[@class='MuiAlert-message']");
+
+
 
 
     /**
@@ -57,6 +60,10 @@ public class ForgotPasswordPage extends BasePage {
 
     public boolean isDontHaveAnAccountTxtDsp() {
         return driver.findElement(dontHaveAnAccountTxt).isDisplayed();
+    }
+
+    public boolean isMessageAboutRecoveryPasswDspl() {
+        return driver.findElement(messageAboutRecoveryPassw).isDisplayed();
     }
 
     /**

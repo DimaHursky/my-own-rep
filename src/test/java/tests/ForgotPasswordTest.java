@@ -16,49 +16,30 @@ import static utils.DriverConfiguration.USER_NAME;
 import static utils.DriverConfiguration.USER_PASSWORD;
 
 @Story("Tests for ForgotPasswordPage")
-public class ForgotPasswordTest extends BaseTest {
+public class ForgotPasswordTest extends AuthorizedTest {
+    //todo: ned for the last test
+//    public static String USER_NAME;
 
-    protected LoginPage loginPage;
-    protected HomePage homePage;
-    protected SignupPage signupPage;
-    protected ForgotPasswordPage forgotPasswordPage;
-    protected MyParcelsPage myParcelsPage;
-    public static String USER_NAME;
-    public static String USER_PASSWORD;
-    public static String INVALID_USER_NAME;
-    public static String INVALID_USER_PASSWORD;
 
     public ForgotPasswordTest() {
         super();
-        loginPage = new LoginPage(driver);
-        homePage = new HomePage(driver);
-        signupPage = new SignupPage(driver);
-        forgotPasswordPage = new ForgotPasswordPage(driver);
     }
 
+    //todo add befoare ech
     @BeforeEach
     public void beforeEach() {
         homePage.open(DriverConfiguration.BASE_URL);
-    }
-
-    @BeforeAll
-    public static void beforeAll(){
-        USER_NAME = YAMLDeserializer.fromFileToMap("login_test_data.yaml").get("user_name");
-        USER_PASSWORD = YAMLDeserializer.fromFileToMap("login_test_data.yaml").get("user_password");
-        INVALID_USER_NAME = YAMLDeserializer.fromFileToMap("login_test_data.yaml").get("invalid_user_name");
-        INVALID_USER_PASSWORD = YAMLDeserializer.fromFileToMap("login_test_data.yaml").get("invalid-user_password");
+        loginPage = headerPage.clkMenuBtn()
+                .clkLoginBtn();
 
     }
-    /**
-     * Test verify that all elements on Forgot Password page is displayed
-     */
+
     @Test
+    @DisplayName("Verify that all elements is displayed an the ForgotPasswordPage")
     public void findElements() {
 
         SoftAssertions softAssertions = new SoftAssertions();
-        homePage.clkMenuBtn()
-                .clkLoginBtn()
-                .clkForgotPasswordBnt();
+        loginPage.clkForgotPasswordBnt();
 
         softAssertions.assertThat(forgotPasswordPage.isForgotPasswordLogoImgDsp())
                 .withFailMessage("Forgot Password Logo Img isn't displayed").isTrue();
@@ -76,59 +57,34 @@ public class ForgotPasswordTest extends BaseTest {
                 .withFailMessage("Back To Log In Btn isn't displayed").isTrue();
         softAssertions.assertThat(forgotPasswordPage.isDontHaveAnAccountTxtDsp())
                 .withFailMessage("Don't Have An Account Txt isn't displayed").isTrue();
-
     }
 
     @Test
     @DisplayName("Verify that the the 'Back to Log In' button are redirect user to main page")
     @Description("The user redirect from the \"Forgot Password\" page to the \"Login Page\"")
     public void isTheUserBackToLofinPage() {
-        homePage.clkMenuBtn()
-                .clkLoginBtn()
-                .clkForgotPasswordBnt()
+        loginPage.clkForgotPasswordBnt()
                 .clkBackToLogInBtn();
         assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
     }
-
+//TODO add the nwe password from the email
     @Test
     @DisplayName("Verify that user is able to recover the password")
     @Description("Open the recover the password for email 'DimaTracksterTest@gmail.com' the password '12345Hur'")
-    public void isEmailFieldIsDsp() {
-        homePage.clkMenuBtn()
-                .clkLoginBtn()
-                .clkForgotPasswordBnt()
-                .inserEmailFld("DimaTracksterTest@gmail.com")
+    public void submitFrgotPassword() {
+        loginPage.clkForgotPasswordBnt()
+                .inserEmailFld(USER_NAME)
                 .clkSendLinkBtn();
-        //assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
+        assertTrue(forgotPasswordPage.isMessageAboutRecoveryPasswDspl(), "The message 'If we find a user with this email address, we will send a password reset mail' " +
+                "isn't displayed when the user recover the password");
     }
 
-    // TODO:  page 'Sign Up' isn't ready
-//    /**
-//     * Open the Sgn Up button  (The "signupPage" is not ready)
-//     */
-//    @Test
-//    public void isSignUpPageDspl() {
-//        homePage.clkMenuBtn()
-//                .clkLoginBtn()
-//                .clkForgotPasswordBnt()
-//                .clkSignUpBtn();
-//        assertTrue(signupPage., "Sign Up page isn't displayed");
-//    }
-
-
-//    @Test
-//    public void submitFrgotPassword() {
-//        homePage.clkMenuBtn()
-//                .clkLoginBtn()
-//                .clkForgotPasswordBnt()
-//                .clkUserEmailFld()
-//                .clkUserEmailFld()
-//                .insertLoginFld(USER_NAME, USER_PASSWORD)
-//                .clkSubmitLogin();
-//
-//        assertTrue(forgotPasswordPage.isBackToLogInBtnDsp(), "The Search button isn't displayed when the user is logged in");
-//        homePage.clkMenuBtn().clkUserLogOutBtn();
-//    }
-
-
+    @Test
+    @DisplayName("Verify that the user is able to sign up from the forgot password page")
+    public void isSignUpPageDspl() {
+        loginPage
+                .clkForgotPasswordBnt()
+                .clkSignUpBtn();
+        assertTrue(signupPage.isSignUpImgspl(), "Sign Up page isn't displayed");
+    }
 }

@@ -103,10 +103,10 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public HomePage clkSubmitLogin() { //todo - change naming
+    public MyParcelsPage clkSubmitLogin() { //todo - change naming
 
         waitElementIsVisible(loginBtn).click();
-        return new HomePage(driver);
+        return new MyParcelsPage(driver);
     }
 
     public ForgotPasswordPage clkForgotPasswordBnt() {

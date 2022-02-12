@@ -2,39 +2,15 @@ package tests;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.MenuPage;
-import pages.MyParcelsPage;
-import utils.DriverConfiguration;
+import utils.YAMLDeserializer;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static utils.DriverConfiguration.USER_NAME;
-import static utils.DriverConfiguration.USER_PASSWORD;
 
-public class MyParcelsPageTest extends BaseTest {
-    protected MyParcelsPage myParcelsPage;
-    protected MenuPage menuPage;
-    protected LoginPage loginPage;
-    protected HomePage homePage;
+public class MyParcelsPageTest extends AuthorizedTest {
 
     public MyParcelsPageTest() {
         super();
-        myParcelsPage = new MyParcelsPage(driver);
-        menuPage = new MenuPage(driver);
-        loginPage = new LoginPage(driver);
-        homePage = new HomePage(driver);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        myParcelsPage.open(DriverConfiguration.BASE_URL);
-        homePage.clkMenuBtn()
-                .clkLoginBtn()
-                .insertLoginFld(USER_NAME,USER_PASSWORD)
-                .clkSubmitLogin();
     }
 
     @Test
@@ -113,10 +89,11 @@ public class MyParcelsPageTest extends BaseTest {
      */
     @Test
     public void verifyThatUserIsAbleToInputTrackNumber() {
-        myParcelsPage.inpTrckNbrAndClkEnter();
-        String expected = "20450498476837";
+        String trckNbr = YAMLDeserializer.fromFileToMap("trackNumber").get("valid_nova_poshta");
+        myParcelsPage.inpTrckNbrAndClkEnter(trckNbr);
+        String expected = trckNbr;
         String actual = myParcelsPage.getParcelNumber();
-        assertEquals(expected, actual, "Incorrect track number 20450498476837");
+        assertEquals(expected, actual, "Can't find " + trckNbr);
     }
 
     /**
@@ -125,10 +102,11 @@ public class MyParcelsPageTest extends BaseTest {
      */
     @Test
     public void verifyThatUserIsAbleToSearchHisTrackNumberBySearchButton() {
+        String trckNbr = YAMLDeserializer.fromFileToMap("trackNumber").get("valid_nova_poshta");
         myParcelsPage.inpTrckNbrAndClkBtnSrch();
-        String expected = "20450498476837";
+        String expected = trckNbr;
         String actual = myParcelsPage.getParcelNumber();
-        assertEquals(expected, actual, "Incorrect track number 20450498476837");
+        assertEquals(expected, actual, "Can't find " + trckNbr);
     }
 
     /**
@@ -168,32 +146,12 @@ public class MyParcelsPageTest extends BaseTest {
     }
 
     /**
-     * Verify That Authorized User Is Able To Click on button To Delete His Parcel
-     */
-    @Test
-    public void verifyThatUserIsAbleDeleteHisParcel() {
-        myParcelsPage.clkBtnDltParcel();
-        assertTrue(myParcelsPage.isntBtnParcelDsp(), "Button Delete Parcel doesn't work correctly");
-    }
-
-    /**
-     * Verify That Authorized User Is Able To Change Language On Page
-     * Change English to Ukrainian
-     */
-    @Test
-    public void verifyThatChangingEngToUaIsPossible() {
-        homePage.clkListBoxBtn()
-                .clkUaBtn();
-        assertTrue(myParcelsPage.isUaStatusDsp(), "Language isn't correct");
-    }
-
-    /**
      * Verify That Authorized User Is Able To Change Language On Page
      * Change Ukrainian to English
      */
     @Test
     public void verifyThatChangingUaToEngIsPossible() {
-        homePage.clkListBoxBtn()
+        headerPage.clkListBoxBtn()
                 .clkUaBtn()
                 .clkListBoxBtn()
                 .clkEngBtn();
@@ -205,7 +163,7 @@ public class MyParcelsPageTest extends BaseTest {
      */
     @Test
     public void verifyThatUserIsAbleToFollowToHomePageByMainBtn() {
-        homePage.clkMenuBtn()
+        headerPage.clkMenuBtn()
                 .clkMainBtn();
         assertTrue(homePage.isHdngFindYourParcelDsp(), "Main Button doesn't work correctly");
     }
@@ -215,31 +173,12 @@ public class MyParcelsPageTest extends BaseTest {
      */
     @Test
     public void verifyThatUserIsAbleToFollowToHomePageByLnkLogo() {
-        homePage.clkLnkLogo();
+        headerPage.clkLnkLogo();
         assertTrue(homePage.isHdngFindYourParcelDsp(), "Main Button doesn't work correctly");
-    }
-
-    /**
-     * Verify That Authorized User Is Able To Follow to SettingsPage by Settings button
-     */
-    /*@Test
-    public void verifyThatUserIsAbleToFollowToSettingsPageBySettingsBtn() {
-
-    }*/
-
-    /**
-     * Verify That Authorized User Is Able To Log out by Log out button
-     */
-    @Test
-    public void verifyThatUserIsAbleToLogOutByLogoutBtn() {
-        homePage.clkMenuBtn()
-                .clkLogOutBtn();
-        assertTrue(homePage.isHdngFindYourParcelDsp(), "Log Out Button doesn't work correctly");
     }
 
     @AfterEach
     public void tearDown() {
-        //logOut
         driver.manage().deleteAllCookies();
         super.tearDown();
     }

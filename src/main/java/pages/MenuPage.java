@@ -2,8 +2,6 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 
 
 public class MenuPage extends BasePage {
@@ -17,10 +15,10 @@ public class MenuPage extends BasePage {
     private final By hdnMenu = By.cssSelector
             ("div.jss1 > div.MuiDrawer-root.MuiDrawer-docked > div");
 
-//    private final By loginBtn = By.xpath
-//            ("//span[contains(.,'Log In')]");
-    private final By loginBtn = By.cssSelector
-            ("div.MuiPaper-root.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.MuiPaper-elevation0 > ul:nth-child(5) > a:nth-child(1)");
+    private final By loginBtn = By.xpath
+            ("//span[contains(.,'Log In')]");
+//    private final By loginBtn = By.cssSelector
+//            ("div.MuiPaper-root.MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.MuiPaper-elevation0 > ul:nth-child(5) > a:nth-child(1)");
 
 //    private final By signupBtn = By.xpath
 //            ("//span[contains(.,'Sign Up')]");
@@ -120,22 +118,11 @@ public class MenuPage extends BasePage {
         return waitElementIsVisible(userLogOut).isDisplayed();
     }
 
-    /**
-     * for myParcelsPageTest
-     */
     private final By tracksterHdng = By.xpath
             ("//h6[@class=\"MuiTypography-root jss4 MuiTypography-h6\"]");
 
     public boolean isTracksterHdngDsp() {
         return waitElementIsVisible(tracksterHdng).isDisplayed();
-    }
-
-    private final By logOutBtn = By.xpath
-            ("//ul[2]//a");
-
-    public HomePage clkLogOutBtn() {
-        waitElementIsVisible(logOutBtn).click();
-        return new HomePage(driver);
     }
 }
 

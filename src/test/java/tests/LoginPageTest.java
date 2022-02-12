@@ -14,18 +14,11 @@ import utils.YAMLDeserializer;
 
 import java.io.ByteArrayInputStream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Story("All tests for LoginPage")
-public class LoginPageTest extends BaseTest {
-
-    protected LoginPage loginPage;
-    protected MenuPage menuPage;
-    protected HomePage homePage;
-    protected BasePage basePage;
-    protected SettingsPage settingsPage;
-    protected MyParcelsPage myParcelsPage;
-    protected ForgotPasswordPage forgotPasswordPage;
+public class LoginPageTest extends AuthorizedTest {
 
     public static String USER_NAME;
     public static String USER_PASSWORD;
@@ -34,17 +27,8 @@ public class LoginPageTest extends BaseTest {
     private static String USER_NAME_WITHOUT_PARCELS;
     private static String USER_PASSWORD_WITHOUT_PARCELS;
 
-    //todo винести в драйвер конф
     public LoginPageTest() {
         super();
-//        loginPage = new LoginPage(driver);
-        homePage = new HomePage(driver);
-        basePage = new BasePage(driver);
-        menuPage = new MenuPage(driver);
-        settingsPage = new SettingsPage(driver);
-        myParcelsPage = new MyParcelsPage(driver);
-        forgotPasswordPage = new ForgotPasswordPage(driver);
-
     }
 
     @BeforeAll
@@ -60,17 +44,9 @@ public class LoginPageTest extends BaseTest {
     @BeforeEach
     public void beforeEach() {
         homePage.open(DriverConfiguration.BASE_URL);
-        loginPage = homePage.clkMenuBtn()
+        loginPage = headerPage.clkMenuBtn()
                 .clkLoginBtn();
     }
-
-    @AfterEach
-    public void afterEach() {
-        homePage.open(DriverConfiguration.BASE_URL);
-        homePage.clkMenuBtn()
-                .clkLogOutBtn();
-    }
-
 
     @Test
     @DisplayName("Verify that all elements on LoginPage are displayed.")
@@ -99,18 +75,6 @@ public class LoginPageTest extends BaseTest {
                 .withFailMessage("Don't have an account text isn't displayed").isTrue();
     }
 
-    //TODO - change IS to Verif on test for NON boolian values
-    @Test
-    public void verifyThatLoginWithGoogleBtnDsp() {
-        assertTrue(loginPage.isLoginWithGoogleBtnDsp(), "Login with google Button isn't displayed");
-    }
-
-    @Test
-    public void verifyThatLoginWithFacebookBtnDsp() {
-        loginPage.isLoginWithFacebookDsp();
-        assertTrue(loginPage.isLoginWithFacebookDsp(), "Login with google facebook isn't displayed");
-    }
-
     @Test
     @DisplayName("Verify that error message \"Email is invalid\" is displayed when user login with invalid email")
     @Description("We using the 'invalidLogin'  method from 'LoginPage' and enter the INVALID_USER_NAME from 'login_test_data.yaml' file" +
@@ -126,32 +90,33 @@ public class LoginPageTest extends BaseTest {
             "to verify that the error 'Incorrect email or password' is displayed")
     public void loginTestWhenThePasswordInvalid() {
         loginPage.invalidLogin(USER_NAME, INVALID_USER_PASSWORD);
-        //assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
+        assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
 
-        Allure.addAttachment("Error Text",
-                new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-        assertTrue(false);
+//        Allure.addAttachment("Error Text",
+//                new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
+//        assertTrue(false);
     }
 
     @Test
-    @DisplayName("Verify that the parcel \"59000779201387\" are displayed on the parcel page")
+    @DisplayName("Verify that the parcel '59000779201387' are displayed on the parcel page")
     @Description("\"We using the 'validLogin' method from 'LoginPage' and search the parcel by the track number '59000779201387'")
     public void loginAsUserWithParcels() {
 
-        loginPage.validLogin(USER_NAME, USER_PASSWORD)
+        String actual = loginPage.validLogin(USER_NAME, USER_PASSWORD)
                 .getParcelNumber();
-        assertTrue(myParcelsPage.isNmbParcelDisplayed(), "The parcels '59000779201387' isn't displayed");
+        assertTrue(myParcelsPage.isNmbParcelDisplayed(), "The parcels isn't displayed");
+        assertEquals(actual, "59000779201387");
     }
 
-//    @Test
-//    @DisplayName("Verify that the image about absent parcels is displayed")
-//    @Description("login as the user that no any saved parcels ")
-//    public void loginTestWithoutParcels() {
-//        loginPage.invalidLogin(USER_NAME_WITHOUT_PARCELS, USER_PASSWORD_WITHOUT_PARCELS);
-//        assertTrue(myParcelsPage.isImgNothingFoundDisplayed(), "Incorrect email or password Isn't Valid isn't displayed when the user is logged in");
-//    }
+    @Test
+    @DisplayName("Verify that the 'Nothing found...' image is displayed on the parcel page")
+    @Description("We using the 'validLogin' method from 'LoginPage' and search the image on user without parcels")
+    public void loginAsUserWithoutParcels() {
 
-
+        loginPage.validLogin(USER_NAME_WITHOUT_PARCELS, USER_PASSWORD_WITHOUT_PARCELS);
+        assertTrue(myParcelsPage.isNothinfFoundImgDisplayed(), "The 'Nothing found...' image isn't displayed");
+    }
+}
 
 
 //    @ParameterizedTest
@@ -171,16 +136,3 @@ public class LoginPageTest extends BaseTest {
 //        );
 //    }
 
-
-//    /**
-////     * TThe user goes to the forgot password page, click on Email Fld
-////     */
-    //    @Test
-//    public void clkForgotPasswordBnt(){
-//        homePage.clkMenuBtn()
-//                .clkLoginBtn().
-//                clkForgotPasswordBnt();
-//        assertTrue(, "T");
-//    }
-
-}

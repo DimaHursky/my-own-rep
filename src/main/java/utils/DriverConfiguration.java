@@ -16,9 +16,6 @@ public class DriverConfiguration {
     public static String UNK_SEARCH_PAGE_URL;
     public static String USER_NAME;
     public static String USER_PASSWORD;
-//    public static String INVALID_USER_NAME;
-//    public static String INVALID_USER_PASSWORD;
-
     static {
         Properties properties = new Properties();
         try {
@@ -27,10 +24,8 @@ public class DriverConfiguration {
             BASE_URL = properties.getProperty("base.url");
             UNK_SEARCH_PAGE_URL = properties.getProperty("find.url");
 
-//            USER_NAME = properties.getProperty("user.email");
-//            USER_PASSWORD = properties.getProperty("user.password");
-//            INVALID_USER_NAME = properties.getProperty("invalid.user.mail");
-//            INVALID_USER_PASSWORD = properties.getProperty("invalid.user.password");
+            USER_NAME = properties.getProperty("user.email");
+            USER_PASSWORD = properties.getProperty("user.password");
 
             IMPLICIT_WAIT = Long.parseLong(properties.getProperty("implicit_wait"));
             System.setProperty("webdriver.chrome.driver", properties.getProperty("webdriver.chrome.driver"));
