@@ -9,10 +9,6 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-
-    /**
-     * Xpath and CSS selectors for all elements on the "Login Page"
-     */
     private final By divLogin = By.cssSelector("div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-6.MuiGrid-grid-lg-4");
     //private final By logInYourAccountTxt = By.cssSelector("h4.MuiTypography-gutterBottom");
     private final By logInYourAccountTxt = By.xpath("//h4[contains(@class, 'MuiTypography-gutterBottom')]");
@@ -21,7 +17,7 @@ public class LoginPage extends BasePage {
     private final By userPassword = By.xpath("(//input[contains(@class, 'MuiInputBase-input MuiOu')])[2]");
     //private final By passwordFld = By.cssSelector("input.MuiInputBase-input fieldset ");
     //private final By loginBnt = By.xpath("//span[@class='MuiButton-label']");
-    private final By loginBtn = By.cssSelector("span[class='MuiButton-label']");  //TODO - Btn change to Link
+    private final By loginBtn = By.cssSelector("span[class='MuiButton-label']");
     private final By forgotPasswordBnt = By.xpath("//a[@href='/reset-password']");
     //private final By forgotPasswordBnt = By.cssSelector("a[href='/reset-password']");
     private final By loginWithGoogleBnt = By.xpath("//span[@class='MuiButton-startIcon MuiButton-iconSizeLarge']");
@@ -36,11 +32,6 @@ public class LoginPage extends BasePage {
     private final By erorTextEmailIsntValid = By.cssSelector("p.MuiFormHelperText-root.MuiFormHelperText-contained");
     //private final By errorMessageIncorrectEmailOrPassword = By.xpath("//div[@class='MuiAlert-message']");
     private final By errorMessageIncorrectEmailOrPassword = By.cssSelector("div.MuiAlert-message");
-
-
-    /**
-     * Methods to find elements on the "Login Page"
-     */
 
     public boolean isDivLoginDsp() {
         return driver.findElement(divLogin).isDisplayed();
@@ -90,41 +81,38 @@ public class LoginPage extends BasePage {
         return driver.findElement(errorMessageIncorrectEmailOrPassword).isDisplayed();
     }
 
-
-    /**
-     * The method to insert the email and password when the user login
-     */
     public LoginPage insertLoginFld(String email, String password) {
 
-        WebElement userEmailWait = waitElementIsVisible(userEmail);
-        WebElement userPasswordWait = waitElementIsVisible(userPassword);
+        WebElement userEmailWait = driver.findElement(userEmail);
+        userEmailWait.click();
+        WebElement userPasswordWait = driver.findElement(userPassword);
         userEmailWait.sendKeys(email);
         userPasswordWait.sendKeys(password);
         return this;
     }
 
-    public MyParcelsPage clkSubmitLogin() { //todo - change naming
+    public MyParcelsPage clkSubmitLogin() {
 
-        waitElementIsVisible(loginBtn).click();
+        driver.findElement(loginBtn).click();
         return new MyParcelsPage(driver);
     }
 
     public ForgotPasswordPage clkForgotPasswordBnt() {
 
-        WebElement forgotPasswordBntClk = waitElementIsVisible(forgotPasswordBnt);
+        WebElement forgotPasswordBntClk = driver.findElement(forgotPasswordBnt);
         forgotPasswordBntClk.click();
         return new ForgotPasswordPage(driver);
     }
 
     public MyParcelsPage validLogin(String email, String password) {
         insertLoginFld(email, password);
-        waitElementIsVisible(loginBtn).click();
+        driver.findElement(loginBtn).click();
         return new MyParcelsPage(driver);
     }
 
     public HomePage invalidLogin(String email, String password) {
         insertLoginFld(email, password);
-        waitElementIsVisible(loginBtn).click();
+        driver.findElement(loginBtn).click();
         return new HomePage(driver);
     }
 

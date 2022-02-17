@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>groupId</groupId>
     <artifactId>Repositorii</artifactId>
     <version>1.0-SNAPSHOT</version>
-
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
@@ -18,10 +15,7 @@
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <allure-maven.version>2.10.0</allure-maven.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-
-
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -57,22 +51,46 @@
             <version>3.21.0</version>
             <scope>test</scope>
         </dependency>
+
+
+
         <dependency>
+
             <groupId>com.fasterxml.jackson.dataformat</groupId>
+
             <artifactId>jackson-dataformat-yaml</artifactId>
+
             <version>2.13.1</version>
+
         </dependency>
+
+
+
         <dependency>
+
             <groupId>com.fasterxml.jackson.core</groupId>
+
             <artifactId>jackson-databind</artifactId>
+
             <version>2.13.1</version>
+
         </dependency>
+
+
+
         <dependency>
+
             <groupId>io.qameta.allure</groupId>
+
             <artifactId>allure-junit5</artifactId>
+
             <version>${allure-junit5.version}</version>
+
         </dependency>
+
     </dependencies>
+
+
     <build>
         <plugins>
             <plugin>
@@ -104,39 +122,84 @@
                     </systemProperties>
                     <reportFormat>plain</reportFormat>
                 </configuration>
+
+
                 <dependencies>
+
+
                     <dependency>
+
                         <groupId>org.aspectj</groupId>
+
                         <artifactId>aspectjweaver</artifactId>
+
                         <version>${aspectj.version}</version>
+
                     </dependency>
+
+
                     <dependency>
+
                         <groupId>org.junit.jupiter</groupId>
+
                         <artifactId>junit-jupiter-api</artifactId>
+
                         <version>${junit.jupiter.version}</version>
+
                     </dependency>
+
+
                     <dependency>
+
                         <groupId>org.junit.jupiter</groupId>
+
                         <artifactId>junit-jupiter-engine</artifactId>
+
                         <version>${junit.jupiter.version}</version>
+
                     </dependency>
+
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>io.qameta.allure</groupId>
-                <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
 
             </plugin>
+
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+
+                <groupId>io.qameta.allure</groupId>
+
+                <artifactId>allure-maven</artifactId>
+
+                <version>${allure-maven.version}</version>
+
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <reportDirectory>${project.basedir}/surefire-reports</reportDirectory>
                 </configuration>
+
             </plugin>
+
+            <plugin>
+
+                <groupId>org.apache.maven.plugins</groupId>
+
+                <artifactId>maven-compiler-plugin</artifactId>
+
+                <version>${maven-compiler-plugin.version}</version>
+
+
+
+                <configuration>
+
+                    <source>${java.version}</source>
+
+                    <target>${java.version}</target>
+
+                </configuration>
+
+            </plugin>
+
         </plugins>
+
     </build>
+
 </project>

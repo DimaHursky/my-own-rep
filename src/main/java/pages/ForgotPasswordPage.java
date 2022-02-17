@@ -9,9 +9,6 @@ public class ForgotPasswordPage extends BasePage {
         super(driver);
     }
 
-    /**
-     * Xpath and CSS selectors for all elements on the "Login Page"
-     */
     private final By forgotPasswordLogoImg = By.xpath("//img[@src='/static/media/forgot-password.b7dfb23a.svg']");
     //private final By forgotPasswordLogoImg = By.cssSelector("img[src='/static/media/forgot-password.b7dfb23a.svg']")
     private final By troubleLoggingInTxt = By.cssSelector("h4.MuiTypography-root.MuiTypography-h4");
@@ -22,13 +19,6 @@ public class ForgotPasswordPage extends BasePage {
     private final By sendLinkBtn = By.xpath("//span[@class='MuiButton-label']");
     private final By dontHaveAnAccountTxt = By.cssSelector("p.MuiTypography-root.MuiTypography-body2.MuiTypography-alignCenter");
     private final By messageAboutRecoveryPassw = By.xpath("//div[@class='MuiAlert-message']");
-
-
-
-
-    /**
-     * Methods to find elements on the "Forgot Password Page"
-     */
 
     public boolean isForgotPasswordLogoImgDsp() {
         return driver.findElement(forgotPasswordLogoImg).isDisplayed();
@@ -66,20 +56,6 @@ public class ForgotPasswordPage extends BasePage {
         return driver.findElement(messageAboutRecoveryPassw).isDisplayed();
     }
 
-    /**
-     * Methods to click on elements on the "Forgot Password page"
-     */
-//    public ForgotPasswordPage clkUserEmailFld() {
-//     //   WebElement userEmailFldClk = waitElementIsVisible(userEmailFld);
-//        driver.findElement(userEmailFld).click();
-//        return new ForgotPasswordPage(driver);
-//    }
-    public ForgotPasswordPage clkUserEmailFld() {
-        WebElement userEmailFldFldClk = waitElementIsVisible(userEmailFld);
-        userEmailFldFldClk.click();
-        return new ForgotPasswordPage(driver);
-    }
-
     public ForgotPasswordPage clkSendLinkBtn() {
         driver.findElement(sendLinkBtn).click();
         return new ForgotPasswordPage(driver);
@@ -96,10 +72,8 @@ public class ForgotPasswordPage extends BasePage {
     }
 
     public ForgotPasswordPage inserEmailFld(String email) {
-        WebElement userEmailWait = waitElementIsVisible(userEmailFld);
+        WebElement userEmailWait = driver.findElement(userEmailFld);
         userEmailWait.sendKeys(email);
         return this;
     }
-
-
 }
