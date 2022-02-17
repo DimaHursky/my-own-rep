@@ -18,7 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Story("All tests for LoginPage")
-public class LoginPageTest extends AuthorizedTest {
+
+public class LoginPageTest extends BaseTest {
+
+    protected ForgotPasswordPage forgotPasswordPage;
+    protected LoginPage loginPage;
+    protected SignupPage signupPage;
+    protected MyParcelsPage myParcelsPage;
 
     public static String USER_NAME;
     public static String USER_PASSWORD;
@@ -29,6 +35,10 @@ public class LoginPageTest extends AuthorizedTest {
 
     public LoginPageTest() {
         super();
+        forgotPasswordPage = new ForgotPasswordPage(driver);
+        loginPage = new LoginPage(driver);
+        signupPage = new SignupPage(driver);
+        myParcelsPage = new MyParcelsPage(driver);
     }
 
     @BeforeAll
@@ -43,7 +53,7 @@ public class LoginPageTest extends AuthorizedTest {
 
     @BeforeEach
     public void beforeEach() {
-        homePage.open(DriverConfiguration.BASE_URL);
+        super.beforeEach();
         loginPage = headerPage.clkMenuBtn()
                 .clkLoginBtn();
     }
@@ -92,9 +102,6 @@ public class LoginPageTest extends AuthorizedTest {
         loginPage.invalidLogin(USER_NAME, INVALID_USER_PASSWORD);
         assertTrue(loginPage.isErrorMessageIncorrectEmailOrPasswordDispl(), "Error message 'Incorrect email or password' isn't displayed when the user is enter the invalid password");
 
-//        Allure.addAttachment("Error Text",
-//                new ByteArrayInputStream(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)));
-//        assertTrue(false);
     }
 
     @Test

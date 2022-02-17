@@ -16,22 +16,25 @@ import static utils.DriverConfiguration.USER_NAME;
 import static utils.DriverConfiguration.USER_PASSWORD;
 
 @Story("Tests for ForgotPasswordPage")
-public class ForgotPasswordTest extends AuthorizedTest {
-    //todo: ned for the last test
-//    public static String USER_NAME;
+public class ForgotPasswordTest extends BaseTest {
 
+    protected ForgotPasswordPage forgotPasswordPage;
+    protected LoginPage loginPage;
+    protected SignupPage signupPage;
 
     public ForgotPasswordTest() {
         super();
+
+        forgotPasswordPage = new ForgotPasswordPage(driver);
+        loginPage = new LoginPage(driver);
+        signupPage = new SignupPage(driver);
     }
 
-    //todo add befoare ech
     @BeforeEach
     public void beforeEach() {
-        homePage.open(DriverConfiguration.BASE_URL);
+        super.beforeEach();
         loginPage = headerPage.clkMenuBtn()
                 .clkLoginBtn();
-
     }
 
     @Test
@@ -67,7 +70,8 @@ public class ForgotPasswordTest extends AuthorizedTest {
                 .clkBackToLogInBtn();
         assertTrue(forgotPasswordPage.isUserEmailFldDsp(), "Email Field isn't displayed");
     }
-//TODO add the nwe password from the email
+
+    //TODO add the nwe password from the email
     @Test
     @DisplayName("Verify that user is able to recover the password")
     @Description("Open the recover the password for email 'DimaTracksterTest@gmail.com' the password '12345Hur'")
@@ -85,6 +89,6 @@ public class ForgotPasswordTest extends AuthorizedTest {
         loginPage
                 .clkForgotPasswordBnt()
                 .clkSignUpBtn();
-        assertTrue(signupPage.isSignUpImgspl(), "Sign Up page isn't displayed");
+        assertTrue(signupPage.isSignUpImgDsp(), "Sign Up page isn't displayed");
     }
 }

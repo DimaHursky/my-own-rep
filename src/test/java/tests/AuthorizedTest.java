@@ -6,15 +6,14 @@ import pages.*;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static utils.YAMLDeserializer.fromFileToMap;
 
 public abstract class AuthorizedTest extends BaseTest {
     protected Map<String, String> user;
     protected MyParcelsPage myParcelsPage;
     protected HeaderPage headerPage;
-    protected ForgotPasswordPage forgotPasswordPage;
-    protected LoginPage loginPage;
-    protected SignupPage signupPage;
+    protected MenuPage menuPage;
 
     public AuthorizedTest() {
         super();
@@ -22,9 +21,7 @@ public abstract class AuthorizedTest extends BaseTest {
         user = fromFileToMap("user.yaml");
         myParcelsPage = new MyParcelsPage(driver);
         headerPage = new HeaderPage(driver);
-        forgotPasswordPage = new ForgotPasswordPage(driver);
-        loginPage = new LoginPage(driver);
-        signupPage = new SignupPage(driver);
+        menuPage = new MenuPage(driver);
     }
 
     public AuthorizedTest(String file) {
@@ -41,12 +38,15 @@ public abstract class AuthorizedTest extends BaseTest {
                 .clkLoginBtn()
                 .insertLoginFld(user.get("name"), user.get("password"))
                 .clkSubmitLogin();
+        menuPage = headerPage.clkMenuBtn();
+        assertTrue(menuPage.isUserSetingsDsp());
+        headerPage = menuPage.clkBurgerBtn();
     }
 
     @AfterEach
     public void tearDown() {
-        /*headerPage.clkMenuBtn()
-                .clkUserLogOutBtn();*/
+        headerPage.clkMenuBtn()
+                .clkUserLogOutBtn();
         super.tearDown();
     }
 }
